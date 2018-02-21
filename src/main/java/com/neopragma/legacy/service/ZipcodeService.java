@@ -13,9 +13,13 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
+import com.neopragma.legacy.business.ApplicantLocation;
+
 public class ZipcodeService {
-	public String findCityState(String zipCode) throws URISyntaxException, IOException{
+	public ApplicantLocation findCityState(String zipCode) throws URISyntaxException, IOException{
 			URI uri = buildZipCodesDotComURI(zipCode);
+			ApplicantLocation applicantLocation = new ApplicantLocation();
+			
 	        HttpGet request = new HttpGet(uri);
 	        CloseableHttpClient httpclient = HttpClients.createDefault();
 	        CloseableHttpResponse response = httpclient.execute(request);
@@ -35,9 +39,10 @@ public class ZipcodeService {
 	                contentOffset = result.indexOf(" - ", contentOffset);
 	                contentOffset += 3;
 	                int stateOffset = result.indexOf(" ", contentOffset);
-	                //city = result.substring(contentOffset, stateOffset);
+	                applicantLocation.setCity(result.substring(contentOffset, stateOffset));
+	                
 	                stateOffset += 1;
-	                //state = result.substring(stateOffset, stateOffset+2);
+	                applicantLocation.setState(result.substring(stateOffset, stateOffset+2));
 	            } else {
 	            	//city = "";
 	            	//state = "";
@@ -46,7 +51,7 @@ public class ZipcodeService {
 	            response.close();
 	        }
 	        
-	        return "";
+	        return applicantLocation;
 	}
 
 	private URI buildZipCodesDotComURI(String zipCode) throws URISyntaxException {

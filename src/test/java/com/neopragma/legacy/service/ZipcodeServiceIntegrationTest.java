@@ -8,6 +8,8 @@ import java.net.URISyntaxException;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.neopragma.legacy.business.ApplicantLocation;
+
 public class ZipcodeServiceIntegrationTest {
 	private ZipcodeService service;
 	
@@ -18,18 +20,18 @@ public class ZipcodeServiceIntegrationTest {
 	
 	@Test
 	public void itFindsAddisonTexasBy5DigitZipCode() throws URISyntaxException, IOException {
-		String actualLocation = service.findCityState("75001");
+		ApplicantLocation actualLocation = service.findCityState("75001");
 		
-		assertEquals("Addison", actualLocation);
-		assertEquals("TX", actualLocation);
+		assertEquals("Addison", actualLocation.getCity());
+		assertEquals("TX", actualLocation.getState());
 	}
 	
 	@Test
 	public void itFindsMaranaArizonaBy9DigitZipCode() throws URISyntaxException, IOException {
-		String actualLocation = service.findCityState("856585578");
+		ApplicantLocation actualLocation = service.findCityState("856585578");
 
-		assertEquals("Marana", actualLocation);
-		assertEquals("AZ", actualLocation);
+		assertEquals("Marana", actualLocation.getCity());
+		assertEquals("AZ", actualLocation.getState());
 	}
 	
 	@Test(expected = IOException.class)

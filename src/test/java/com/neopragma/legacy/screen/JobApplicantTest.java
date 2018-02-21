@@ -1,6 +1,7 @@
 package com.neopragma.legacy.screen;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -27,6 +28,14 @@ public class JobApplicantTest {
 	@Before
 	public void beforeEach() {
 		jobApplicant = new JobApplicant();
+	}
+	
+	@Test
+	public void shouldAddAndSaveAJobApplicat() throws URISyntaxException, IOException {
+		jobApplicant.add("Jason", "Thomas", "Dinkelmann", "375689012", "48176");
+		assertEquals(0, jobApplicant.validateName());
+		assertEquals(0, jobApplicant.validateSsn());
+		assertEquals("48176", jobApplicant.getZipCode());
 	}
 	
 	@Test

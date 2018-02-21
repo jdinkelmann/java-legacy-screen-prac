@@ -160,6 +160,10 @@ public class JobApplicant {
 		return state;
 	}
 	
+	public String getZipCode() {
+		return this.zipCode;
+	}
+	
 	public void add(String firstName,
 			       String middleName,
 			       String lastName,
@@ -175,5 +179,7 @@ public class JobApplicant {
 		//TODO save information to a database
 		System.out.println("Saving to database: " + formatLastNameFirst());
 	}
+
+	
 	
 }

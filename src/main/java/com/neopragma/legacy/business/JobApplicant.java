@@ -1,4 +1,4 @@
-package com.neopragma.legacy.screen;
+package com.neopragma.legacy.business;
 
 import java.io.BufferedReader;
 import java.io.IOException;

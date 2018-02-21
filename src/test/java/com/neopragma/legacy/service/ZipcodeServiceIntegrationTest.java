@@ -34,8 +34,11 @@ public class ZipcodeServiceIntegrationTest {
 		assertEquals("AZ", actualLocation.getState());
 	}
 	
-	@Test(expected = IOException.class)
-	public void itThrowsAnExeptionIfNoLocationIsFound() throws URISyntaxException, IOException {
-		service.findCityState("1");
+	@Test
+	public void returnsEmptyApplicantLocationIfNoneFound() throws URISyntaxException, IOException {
+		ApplicantLocation actualLocation = service.findCityState("1");
+		
+		assertEquals("", actualLocation.getCity());
+		assertEquals("", actualLocation.getState());
 	}
 }

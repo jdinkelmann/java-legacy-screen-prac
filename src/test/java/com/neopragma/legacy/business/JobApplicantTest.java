@@ -1,4 +1,4 @@
-package com.neopragma.legacy.screen;
+package com.neopragma.legacy.business;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -9,7 +9,7 @@ import java.net.URISyntaxException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.neopragma.legacy.screen.JobApplicant;
+import com.neopragma.legacy.business.JobApplicant;
 
 /**
  * Automated unit checks for the base version of the JobApplicant application.

@@ -16,42 +16,63 @@ import org.apache.http.impl.client.HttpClients;
 import com.neopragma.legacy.business.ApplicantLocation;
 
 public class ZipcodeService {
-	public ApplicantLocation findCityState(String zipCode) throws URISyntaxException, IOException{
-			URI uri = buildZipCodesDotComURI(zipCode);
-			ApplicantLocation applicantLocation = new ApplicantLocation();
-			
-	        HttpGet request = new HttpGet(uri);
-	        CloseableHttpClient httpclient = HttpClients.createDefault();
-	        CloseableHttpResponse response = httpclient.execute(request);
+	public ApplicantLocation findCityState(String zipCode) throws URISyntaxException,IOException {
+			ApplicantLocation applicantLocation;
+			CloseableHttpResponse response = null;
+	        
 	        try {
+	        	response = getZipCodeData(zipCode);
 	            HttpEntity entity = response.getEntity();
 	            if (entity != null) {
-	              	BufferedReader rd = new BufferedReader(
-	                        new InputStreamReader(response.getEntity().getContent()));
-	           		StringBuffer result = new StringBuffer();
-	           		String line = "";
-	           		while ((line = rd.readLine()) != null) {
-	           			result.append(line);
-	       		    }
-	                int metaOffset = result.indexOf("<meta ");
-	                int contentOffset = result.indexOf(" content=\"Zip Code ", metaOffset);
-	                contentOffset += 19;
-	                contentOffset = result.indexOf(" - ", contentOffset);
-	                contentOffset += 3;
-	                int stateOffset = result.indexOf(" ", contentOffset);
-	                applicantLocation.setCity(result.substring(contentOffset, stateOffset));
-	                
-	                stateOffset += 1;
-	                applicantLocation.setState(result.substring(stateOffset, stateOffset+2));
+	              	StringBuffer result = readZipCodeResponse(response);
+	              	applicantLocation = extractCityAndStateFromResult(result);
 	            } else {
-	            	//city = "";
-	            	//state = "";
+	            	throw new IOException("Service is down");
 	            }
 	        } finally {
-	            response.close();
+	           response.close(); 
 	        }
 	        
 	        return applicantLocation;
+	}
+
+	private ApplicantLocation extractCityAndStateFromResult(StringBuffer result) {
+		
+		int zipCodeMetaDataPosition = result.indexOf("<meta name=\"description\" content=\"Zip Code ");
+		
+		if(zipCodeMetaDataPosition > 0) {
+			zipCodeMetaDataPosition += 19;
+			zipCodeMetaDataPosition = result.indexOf(" - ", zipCodeMetaDataPosition);
+			zipCodeMetaDataPosition += 3;
+			int stateOffset = result.indexOf(" ", zipCodeMetaDataPosition);
+			String city = result.substring(zipCodeMetaDataPosition, stateOffset);
+			
+			stateOffset += 1;
+			String state = result.substring(stateOffset, stateOffset+2);
+			return new ApplicantLocation(city, state);
+		}
+		
+		return new ApplicantLocation("", "");
+	}
+
+	private StringBuffer readZipCodeResponse(CloseableHttpResponse response) throws IOException {
+		BufferedReader rd = new BufferedReader(
+		        new InputStreamReader(response.getEntity().getContent()));
+		StringBuffer result = new StringBuffer();
+		String line = "";
+		while ((line = rd.readLine()) != null) {
+			result.append(line);
+		}
+		return result;
+	}
+	
+	private CloseableHttpResponse getZipCodeData(String zipCode) throws URISyntaxException,IOException {
+		URI uri = buildZipCodesDotComURI(zipCode);
+
+		HttpGet request = new HttpGet(uri);
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        
+        return httpclient.execute(request);
 	}
 
 	private URI buildZipCodesDotComURI(String zipCode) throws URISyntaxException {

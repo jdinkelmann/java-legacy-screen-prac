@@ -3,7 +3,11 @@ package com.neopragma.legacy.business;
 public class ApplicantLocation {
 	private String city;
 	private String state;
-	private String zip;
+	
+	public ApplicantLocation(String city, String state) {
+		this.city = city;
+		this.state = state;
+	}
 	
 	public String getCity() {
 		return city;
@@ -19,13 +23,5 @@ public class ApplicantLocation {
 	
 	public void setState(String state) {
 		this.state = state;
-	}
-
-	public String getZip() {
-		return zip;
-	}
-
-	public void setZip(String zip) {
-		this.zip = zip;
 	}
 }

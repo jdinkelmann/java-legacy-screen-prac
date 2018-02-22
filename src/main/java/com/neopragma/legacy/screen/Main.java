@@ -4,11 +4,15 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Scanner;
 
+import com.neopragma.legacy.business.ApplicantLocation;
 import com.neopragma.legacy.business.JobApplicant;
+import com.neopragma.legacy.service.ZipcodeService;
 
 public class Main {
 	public static void main(String[] args) throws URISyntaxException, IOException {
 		JobApplicant jobApplicant = new JobApplicant();
+		ZipcodeService zipcodeService = new ZipcodeService();
+		
 		boolean done = false;
 		Scanner scanner = new Scanner(System.in);
 		String firstName = "";
@@ -33,9 +37,12 @@ public class Main {
 			System.out.println("SSN?");
             ssn = scanner.nextLine();			
 			System.out.println("Zip Code?");
-            zipCode = scanner.nextLine();			
+            zipCode = scanner.nextLine();	
             
-            jobApplicant.add(firstName, middleName, lastName, ssn, zipCode);
+            ApplicantLocation applicantLocation = zipcodeService.findCityState(zipCode);
+            
+            
+            jobApplicant.add(firstName, middleName, lastName, ssn, zipCode, applicantLocation);
 		}
 	}
 }

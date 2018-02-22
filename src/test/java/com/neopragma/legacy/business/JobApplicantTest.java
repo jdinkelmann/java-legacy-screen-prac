@@ -32,10 +32,14 @@ public class JobApplicantTest {
 	
 	@Test
 	public void shouldAddAndSaveAJobApplicat() throws URISyntaxException, IOException {
-		jobApplicant.add("Jason", "Thomas", "Dinkelmann", "375689012", "48176");
+		ApplicantLocation applicantLocation = new ApplicantLocation("Saline", "MI");
+		
+		jobApplicant.add("Jason", "Thomas", "Dinkelmann", "375689012", "48176", applicantLocation);
 		assertEquals(0, jobApplicant.validateName());
 		assertEquals(0, jobApplicant.validateSsn());
 		assertEquals("48176", jobApplicant.getZipCode());
+		assertEquals("Saline", jobApplicant.getCity());
+		assertEquals("MI", jobApplicant.getState());
 	}
 	
 	@Test

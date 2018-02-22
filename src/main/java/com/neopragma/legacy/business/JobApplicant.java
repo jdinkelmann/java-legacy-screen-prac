@@ -1,18 +1,9 @@
 package com.neopragma.legacy.business;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Scanner;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+
 
 /**
  * Job applicant class.
@@ -34,28 +25,30 @@ public class JobApplicant {
 		this.lastName = lastName == null ? "" : lastName;
 	}
 	
-	public void setSpanishName(String primerNombre, String segundoNombre,
-							   String primerApellido, String segundoApellido) {
-		this.firstName = primerNombre == null ? "" : primerNombre;
-		this.middleName = segundoNombre == null ? "" : segundoNombre;
-		if ( primerApellido != null ) {
-  		    StringBuilder sb = new StringBuilder(primerApellido);
-		    sb.append(segundoApellido == null ? null : " " + segundoApellido);
-		    this.lastName = sb.toString();
-		} else {
-			this.lastName = "";
-		}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	private void setCity(String city) {
+		this.city = city;
 	}
 	
-	public String formatLastNameFirst() {
-		StringBuilder sb = new StringBuilder(lastName);
-		sb.append(", ");
-		sb.append(firstName);
-		if ( middleName.length() > 0 ) {
-			sb.append(" ");
-			sb.append(middleName);
-		}
-		return sb.toString();
+	public String getState() {
+		return state;
+	}
+	
+	private void setState(String state) {
+		this.state = state;
+	}
+
+	
+	public String getZipCode() {
+		return this.zipCode;
 	}
 	
 	public int validateName() {
@@ -107,31 +100,42 @@ public class JobApplicant {
 		}
 		return 0;
 	}
-
-	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public String getState() {
-		return state;
+	
+	public void setSpanishName(String primerNombre, String segundoNombre,
+			String primerApellido, String segundoApellido) {
+		this.firstName = primerNombre == null ? "" : primerNombre;
+		this.middleName = segundoNombre == null ? "" : segundoNombre;
+		if ( primerApellido != null ) {
+			StringBuilder sb = new StringBuilder(primerApellido);
+			sb.append(segundoApellido == null ? null : " " + segundoApellido);
+			this.lastName = sb.toString();
+		} else {
+			this.lastName = "";
+		}
 	}
 	
-	public String getZipCode() {
-		return this.zipCode;
+	public String formatLastNameFirst() {
+		StringBuilder sb = new StringBuilder(lastName);
+		sb.append(", ");
+		sb.append(firstName);
+		if ( middleName.length() > 0 ) {
+			sb.append(" ");
+			sb.append(middleName);
+		}
+		return sb.toString();
 	}
 	
 	public void add(String firstName,
 			       String middleName,
 			       String lastName,
 			       String ssn,
-			       String zipCode) throws URISyntaxException, IOException {
+			       String zipCode, 
+			       ApplicantLocation applicantLocation) throws URISyntaxException, IOException {
 		setName(firstName, middleName, lastName);
 		setSsn(ssn);
 		setZipCode(zipCode);
+		setCity(applicantLocation.getCity());
+		setState(applicantLocation.getState());
 		save();
 	}
 	

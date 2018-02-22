@@ -19,16 +19,24 @@ public class JobApplicant {
 	private String state;
 
 	
-	public void setName(String firstName, String middleName, String lastName) {
+	public void setFullName(String firstName, String middleName, String lastName) {
+		setFirstName(firstName);
+		setMiddleName(middleName);
+		setLastName(lastName);
+	}
+	
+	private void setFirstName(String firstName) {
 		this.firstName = firstName == null ? "" : firstName;
+	}
+	
+	private void setMiddleName(String middleName) {
 		this.middleName = middleName == null ? "" : middleName;
+	}
+	
+	private void setLastName(String lastName) {
 		this.lastName = lastName == null ? "" : lastName;
 	}
 	
-
-	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
-	}
 
 	public String getCity() {
 		return city;
@@ -46,9 +54,12 @@ public class JobApplicant {
 		this.state = state;
 	}
 
-	
 	public String getZipCode() {
 		return this.zipCode;
+	}
+	
+	private void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
 	
 	public int validateName() {
@@ -131,7 +142,7 @@ public class JobApplicant {
 			       String ssn,
 			       String zipCode, 
 			       ApplicantLocation applicantLocation) throws URISyntaxException, IOException {
-		setName(firstName, middleName, lastName);
+		setFullName(firstName, middleName, lastName);
 		setSsn(ssn);
 		setZipCode(zipCode);
 		setCity(applicantLocation.getCity());

@@ -1,7 +1,6 @@
 package com.neopragma.legacy.business;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -34,7 +33,7 @@ public class JobApplicantTest {
 	public void shouldAddAndSaveAJobApplicat() throws URISyntaxException, IOException {
 		ApplicantLocation applicantLocation = new ApplicantLocation("Saline", "MI");
 		
-		jobApplicant.add("Jason", "Thomas", "Dinkelmann", "375689012", "48176", applicantLocation);
+		jobApplicant.addApplicantToDatabase("Jason", "Thomas", "Dinkelmann", "375-68-9012", "48176", applicantLocation);
 		assertEquals(0, jobApplicant.validateName());
 		assertEquals(0, jobApplicant.validateSsn());
 		assertEquals("48176", jobApplicant.getZipCode());
@@ -100,6 +99,12 @@ public class JobApplicantTest {
 	public void formatEnglishNameLastNameFirst() {
 		jobApplicant.setName("First", "Middle", "Last");
 		assertEquals("Last, First Middle", jobApplicant.formatLastNameFirst());
+	}
+	
+	@Test
+	public void formatEnglishNameLastNameFirstNoMiddle() {
+		jobApplicant.setName("First", null, "Last");
+		assertEquals("Last, First", jobApplicant.formatLastNameFirst());
 	}
 	
 	@Test

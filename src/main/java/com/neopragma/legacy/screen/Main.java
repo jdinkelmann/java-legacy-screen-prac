@@ -39,10 +39,12 @@ public class Main {
 			System.out.println("Zip Code?");
             zipCode = scanner.nextLine();	
             
+            System.out.println("Locating City & State...");
             ApplicantLocation applicantLocation = zipcodeService.findCityState(zipCode);
+            System.out.println("City & State: " + applicantLocation.getCity() + " " + applicantLocation.getState());
             
             
-            jobApplicant.add(firstName, middleName, lastName, ssn, zipCode, applicantLocation);
+            jobApplicant.addApplicantToDatabase(firstName, middleName, lastName, ssn, zipCode, applicantLocation);
 		}
 	}
 }

@@ -125,7 +125,7 @@ public class JobApplicant {
 		return sb.toString();
 	}
 	
-	public void add(String firstName,
+	public void addApplicantToDatabase(String firstName,
 			       String middleName,
 			       String lastName,
 			       String ssn,
@@ -136,10 +136,10 @@ public class JobApplicant {
 		setZipCode(zipCode);
 		setCity(applicantLocation.getCity());
 		setState(applicantLocation.getState());
-		save();
+		saveApplicant();
 	}
 	
-	private void save() {
+	private void saveApplicant() {
 		//TODO save information to a database
 		System.out.println("Saving to database: " + formatLastNameFirst());
 	}

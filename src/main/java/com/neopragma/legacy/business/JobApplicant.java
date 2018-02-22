@@ -71,7 +71,7 @@ public class JobApplicant {
 	}
 	
 	
-	private String[] specialCases = new String[] {
+	private String[] specialSSNCases = new String[] {
 	    "219099999", "078051120"
 	};
 
@@ -104,8 +104,8 @@ public class JobApplicant {
 		if ( "0000".equals(ssn.substring(5)) ) {
 			return 3;
 		}
-		for (int i = 0 ; i < specialCases.length ; i++ ) {
-			if ( ssn.equals(specialCases[i]) ) {
+		for (int i = 0 ; i < specialSSNCases.length ; i++ ) {
+			if ( ssn.equals(specialSSNCases[i]) ) {
 				return 4;
 			}
 		}
@@ -114,15 +114,17 @@ public class JobApplicant {
 	
 	public void setSpanishName(String primerNombre, String segundoNombre,
 			String primerApellido, String segundoApellido) {
-		this.firstName = primerNombre == null ? "" : primerNombre;
-		this.middleName = segundoNombre == null ? "" : segundoNombre;
-		if ( primerApellido != null ) {
-			StringBuilder sb = new StringBuilder(primerApellido);
-			sb.append(segundoApellido == null ? null : " " + segundoApellido);
-			this.lastName = sb.toString();
-		} else {
-			this.lastName = "";
-		}
+			String firstNombre = primerNombre == null ? "" : primerNombre;
+			String secondNombre =  segundoNombre == null ? "" : segundoNombre;
+			String lastNombre = "";
+		
+			if ( primerApellido != null ) {
+				StringBuilder sb = new StringBuilder(primerApellido);
+				sb.append(segundoApellido == null ? null : " " + segundoApellido);
+				lastNombre = sb.toString();
+			} 
+			
+			setFullName(firstNombre, secondNombre, lastNombre);
 	}
 	
 	public String formatLastNameFirst() {

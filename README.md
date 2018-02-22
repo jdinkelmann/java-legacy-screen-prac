@@ -24,3 +24,6 @@ I had to decide where to end my changes.  I think that the changes made above ma
   - There were some things that I thought of removing from jobApplicant, but did not.  I could see a seam for both a Separate SSN object and a separate Name Object.  These would better encapsulate the building and validation of each.  I struggled with this, but in the end it felt like too much at this time.  
   
   - I cleaned up a fraction of the poorly named items.  I tried to change the most offending names, in an effort to better understand the code in front of me.
+  
+  
+Thanks for looking this over and I look forward to the feedback.
